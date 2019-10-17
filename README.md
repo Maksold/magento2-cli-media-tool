@@ -2,19 +2,24 @@
 
 The module provides a command for retrieving information about catalog media and allows to remove unused images
 
-# Installation
+## Installation
 
 Run the following commands from the project root directory:
 
 ```
+#Add the repo to your composer.json file
+composer config repositories.magentocode-magento2-cli-media-tool vcs https://github.com/MagentoCode/magento2-cli-media-tool.git
+#Require the latest stable build
 composer require magentocode/magento2-cli-media-tool
+#Enable the Magento module
 bin/magento module:enable MagentoCode_CliMediaTool
+#Run the Magento CLI upgrade tool
 bin/magento setup:upgrade
 ```
 
-# Usage
+## Usage
 
-## Information about media
+### Information about media
 
 ```
 bin/magento magentocode:catalog:media
@@ -26,7 +31,7 @@ Unused files: 5847.
 Missing files: 4.
 ```
 
-## List missing files
+### List missing files
 
 ```
 bin/magento magentocode:catalog:media -m
@@ -43,7 +48,7 @@ Unused files: 5847.
 Missing files: 4.
 ```
 
-## List unused files
+### List unused files
 
 ```
 bin/magento magentocode:catalog:media -u
@@ -59,7 +64,7 @@ Unused files: 5847.
 Missing files: 4.
 ```
 
-## Remove unused files
+### Remove unused files
 
 ```
 bin/magento magentocode:catalog:media -r
