@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     Sivaschenko\Media
- * @author      Sergii Ivashchenko <contact@sivaschenko.com>
+ * @package     MagentoCode\Media
+ * @author      Sergii Ivashchenko <contact@MagentoCode.com>
  * @copyright   2017-2018, Sergii Ivashchenko
  * @license     MIT
  */
-namespace Sivaschenko\CleanMedia\Command;
+namespace MagentoCode\CliMediaTool\Command;
 
 use Magento\Framework\DB\Select;
 use Symfony\Component\Console\Command\Command;
@@ -60,7 +60,7 @@ class CatalogMedia extends Command
      */
     protected function configure()
     {
-        $this->setName('sivaschenko:catalog:media')
+        $this->setName('magentocode:catalog:media')
             ->setDescription('Get information about catalog product media')
             ->addOption(
                 self::INPUT_KEY_REMOVE_UNUSED,

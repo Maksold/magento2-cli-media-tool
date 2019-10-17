@@ -7,8 +7,8 @@ The module provides a command for retrieving information about catalog media and
 Run the following commands from the project root directory:
 
 ```
-composer require sivaschenko/magento2-clean-media
-bin/magento module:enable Sivaschenko_CleanMedia
+composer require magentocode/magento2-cli-media-tool
+bin/magento module:enable MagentoCode_CliMediaTool
 bin/magento setup:upgrade
 ```
 
@@ -17,7 +17,7 @@ bin/magento setup:upgrade
 ## Information about media
 
 ```
-bin/magento si:catalog:media
+bin/magento magentocode:catalog:media
 
 Media Gallery entries: 17996.
 Files in directory: 23717.
@@ -29,7 +29,7 @@ Missing files: 4.
 ## List missing files
 
 ```
-bin/magento si:catalog:media -m
+bin/magento magentocode:catalog:media -m
 
 Missing media files:
 /i/m/image1.jpg
@@ -46,7 +46,7 @@ Missing files: 4.
 ## List unused files
 
 ```
-bin/magento si:catalog:media -u
+bin/magento magentocode:catalog:media -u
 
 Unused files:
 /i/m/image1.jpg
@@ -62,6 +62,5 @@ Missing files: 4.
 ## Remove unused files
 
 ```
-bin/magento si:catalog:media -r
+bin/magento magentocode:catalog:media -r
 ```
-

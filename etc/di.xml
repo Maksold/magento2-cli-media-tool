@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!--
 /**
- * @package     Sivaschenko\Media
- * @author      Sergii Ivashchenko <contact@sivaschenko.com>
+ * @package     MagentoCode\Media
+ * @author      Sergii Ivashchenko <contact@MagentoCode.com>
  * @copyright   2017-2018, Sergii Ivashchenko
  * @license     MIT
  */
@@ -11,7 +11,7 @@
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="analyzeCleanMediaCommand" xsi:type="object">Sivaschenko\CleanMedia\Command\CatalogMedia</item>
+                <item name="magentoCodeCliMediaTool" xsi:type="object">MagentoCode\CliMediaTool\Command\CatalogMedia</item>
             </argument>
         </arguments>
     </type>

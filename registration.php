@@ -1,12 +1,12 @@
 <?php
 /**
- * @package     Sivaschenko\Media
- * @author      Sergii Ivashchenko <contact@sivaschenko.com>
+ * @package     MagentoCode\Media
+ * @author      Sergii Ivashchenko <contact@MagentoCode.com>
  * @copyright   2017-2018, Sergii Ivashchenko
  * @license     MIT
  */
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Sivaschenko_CleanMedia',
+    'MagentoCode_CliMediaTool',
     __DIR__
 );
