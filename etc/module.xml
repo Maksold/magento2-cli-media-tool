@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!--
 /**
- * @package     Sivaschenko\Media
- * @author      Sergii Ivashchenko <contact@sivaschenko.com>
+ * @package     MagentoCode\Media
+ * @author      Sergii Ivashchenko <contact@MagentoCode.com>
  * @copyright   2017-2018, Sergii Ivashchenko
  * @license     MIT
  */
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Sivaschenko_CleanMedia" setup_version="1.0.0">
+    <module name="MagentoCode_CliMediaTool" setup_version="1.0.0">
         <sequence>
             <module name="Magento_Catalog"/>
         </sequence>
