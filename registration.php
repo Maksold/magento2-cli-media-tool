@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     MagentoCode\Media
- * @author      Sergii Ivashchenko <contact@MagentoCode.com>
+ * @package     MagentoCode\CliMediaTool
+ * @author      Sergii Ivashchenko <contact@sivaschenko.com>
  * @copyright   2017-2018, Sergii Ivashchenko
  * @license     MIT
  */

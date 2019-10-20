@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!--
 /**
- * @package     MagentoCode\Media
- * @author      Sergii Ivashchenko <contact@MagentoCode.com>
+ * @package     MagentoCode\CliMediaTool
+ * @author      Sergii Ivashchenko <contact@sivaschenko.com>
  * @copyright   2017-2018, Sergii Ivashchenko
  * @license     MIT
  */
@@ -11,7 +11,16 @@
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="magentoCodeCliMediaTool" xsi:type="object">MagentoCode\CliMediaTool\Command\CatalogMedia</item>
+                <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Cache" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Cache</item>
+                <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Cache_Remove" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Cache\Remove</item>
+                <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Cleanup" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Cleanup</item>
+                <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Info" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Info</item>
+                <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Missing" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Missing</item>
+                <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Missing_Remove" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Missing\Remove</item>
+                <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Orphaned" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Orphaned</item>
+                <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Orphaned_Remove" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Orphaned\Remove</item>
+                <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Unused" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Unused</item>
+                <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Unused_Remove" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Unused\Remove</item>
             </argument>
         </arguments>
     </type>
