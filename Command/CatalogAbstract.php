@@ -192,7 +192,7 @@ abstract class CatalogAbstract extends Command
             )
             ->reset(Select::COLUMNS)
             ->columns('value')
-            ->where('ent.row_id IS NULL');
+            ->where('ent.entity_id IS NULL');
         $this->orphanedMediaGalleryPaths = $connection->fetchCol($select);
         //add the directory path to each value because the DB only stores the path relative to the media directory
         $mediaDirectoryPath = $this->getMediaDirectoryPath();
