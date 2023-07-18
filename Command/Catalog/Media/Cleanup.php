@@ -68,7 +68,7 @@ class Cleanup extends CatalogAbstract
             $output->writeln(
                 sprintf(
                     'Removed %d media gallery paths that no longer have images on the filesystem.',
-                    count($orphanedMediaGalleryPaths)
+                    count($missingFilePaths)
                 )
             );
 
@@ -80,7 +80,7 @@ class Cleanup extends CatalogAbstract
             $output->writeln(
                 sprintf(
                     'Removed %d files which are no longer present in the media gallery database table.',
-                    count($orphanedMediaGalleryPaths)
+                    count($unusedFilePaths)
                 )
             );
 
