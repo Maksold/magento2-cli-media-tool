@@ -21,6 +21,8 @@
                 <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Orphaned_Remove" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Orphaned\Remove</item>
                 <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Unused" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Unused</item>
                 <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Unused_Remove" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Unused\Remove</item>
+                <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Temporary" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Temporary</item>
+                <item name="MagentoCode_CliMediaTool_Command_Catalog_Media_Temporary_Remove" xsi:type="object">MagentoCode\CliMediaTool\Command\Catalog\Media\Temporary\Remove</item>
             </argument>
         </arguments>
     </type>

@@ -35,6 +35,7 @@ class Info extends CatalogAbstract
             $cacheFilePaths = $this->getCacheFilePaths();
             $unusedFiles = $this->getUnusedFilePaths();
             $missingFiles = $this->getMissingFilePaths();
+            $temporaryFiles = $this->getTemporaryFilePaths();
 
             $output->writeln('===============================================');
             $output->writeln(sprintf('Media Gallery entries: %s.', count($mediaGalleryPaths)));
@@ -44,6 +45,7 @@ class Info extends CatalogAbstract
             $output->writeln(sprintf('Unused files on filesystem: %s.', count($unusedFiles)));
             $output->writeln(sprintf('Missing files on filesystem: %s.', count($missingFiles)));
             $output->writeln(sprintf('Orphaned files on filesystem: %s.', count($orphanedFilePaths)));
+            $output->writeln(sprintf('Temporary files on filesystem: %s.', count($temporaryFiles)));
             $output->writeln('===============================================');
             $output->writeln('To automatically clean up the media gallery, run catalog:media:cleanup');
         } catch (\Exception $exception) {

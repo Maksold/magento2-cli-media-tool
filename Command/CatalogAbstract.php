@@ -4,17 +4,17 @@
  * @author      Brian Neff <bneff84@gmail.com>
  * @license     MIT
  */
+
 namespace MagentoCode\CliMediaTool\Command;
 
-use Magento\Framework\DB\Select;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Magento\Framework\App\ResourceConnection;
+use Magento\Catalog\Model\Product\Media\Config as ProductMediaConfig;
 use Magento\Catalog\Model\ResourceModel\Product\Gallery;
-use Magento\Framework\Filesystem\Driver\File;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Symfony\Component\Console\Input\InputOption;
+use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\DB\Select;
+use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Filesystem\Driver\File;
+use Symfony\Component\Console\Command\Command;
 
 abstract class CatalogAbstract extends Command
 {
@@ -54,9 +54,19 @@ abstract class CatalogAbstract extends Command
     protected $driverFile;
 
     /**
+     * @var ProductMediaConfig
+     */
+    private $productMediaConfig;
+
+    /**
      * @var array The file paths from the media directory
      */
     private $filePaths = [];
+
+    /**
+     * @var array The file paths from the tmp media directory
+     */
+    private $tmpFilePaths = [];
 
     /**
      * @var array The cache file paths from the media directory
@@ -89,15 +99,28 @@ abstract class CatalogAbstract extends Command
     private $unusedFiles = [];
 
     /**
+     * @var array The temporary file paths
+     */
+    private $temporaryFiles = [];
+
+    /**
      * Constructor
      *
      * @param ResourceConnection $resource
+     * @param DirectoryList $directoryList
+     * @param File $driverFile
+     * @param ProductMediaConfig $productMediaConfig
      */
-    public function __construct(ResourceConnection $resource, DirectoryList $directoryList, File $driverFile)
-    {
+    public function __construct(
+        ResourceConnection $resource,
+        DirectoryList $directoryList,
+        File $driverFile,
+        ProductMediaConfig $productMediaConfig
+    ) {
         $this->resource = $resource;
         $this->directoryList = $directoryList;
         $this->driverFile = $driverFile;
+        $this->productMediaConfig = $productMediaConfig;
         parent::__construct();
     }
 
@@ -110,6 +133,17 @@ abstract class CatalogAbstract extends Command
     {
         return $this->directoryList->getPath(DirectoryList::MEDIA)
             .DIRECTORY_SEPARATOR.'catalog'.DIRECTORY_SEPARATOR.'product';
+    }
+
+    /**
+     * Gets the temporary product media directory path
+     * @return string
+     * @throws FileSystemException
+     */
+    protected function getTmpMediaDirectoryPath()
+    {
+        return $this->directoryList->getPath(DirectoryList::MEDIA)
+            . DIRECTORY_SEPARATOR . $this->productMediaConfig->getBaseTmpMediaPath();
     }
 
     /**
@@ -146,6 +180,38 @@ abstract class CatalogAbstract extends Command
             }
         }
         return $this->filePaths;
+    }
+
+    /**
+     * Get the file paths for all tmp media files
+     * @param $useCache boolean
+     * @return array|string[]
+     * @throws FileSystemException
+     */
+    protected function getTmpFilePaths($useCache = true, int $maxLifetimeInHours = 0)
+    {
+        if ($useCache && $this->tmpFilePaths) {
+            return $this->tmpFilePaths;
+        }
+        if ($this->driverFile->isExists($this->getTmpMediaDirectoryPath())) {
+            $this->tmpFilePaths = $this->driverFile->readDirectoryRecursively($this->getTmpMediaDirectoryPath());
+
+            $maxLifetime = $maxLifetimeInHours * 60 * 60; // in seconds
+
+            foreach ($this->tmpFilePaths as $k => $filePath) {
+                if ($this->driverFile->isDirectory($filePath)) {
+                    // Skip directories
+                    unset($this->tmpFilePaths[$k]);
+                } elseif ($this->driverFile->isFile($filePath)
+                    && $this->driverFile->isReadable($filePath)
+                    && (time() - $this->driverFile->stat($filePath)['ctime']) < $maxLifetime
+                ) {
+                    // Skip newly created files
+                    unset($this->tmpFilePaths[$k]);
+                }
+            }
+        }
+        return $this->tmpFilePaths;
     }
 
     /**
@@ -271,6 +337,21 @@ abstract class CatalogAbstract extends Command
         $mediaGalleryPaths = $this->getMediaGalleryPaths($useCache);
         $this->unusedFiles = array_diff($filePaths, $mediaGalleryPaths);
         return $this->unusedFiles;
+    }
+
+    /**
+     * Gets an array of all the files that are not present in the media gallery table
+     * @param $useCache boolean
+     * @return array
+     * @throws FileSystemException
+     */
+    protected function getTemporaryFilePaths($useCache = true, int $maxLifetimeInHours = 0)
+    {
+        if ($useCache && $this->temporaryFiles) {
+            return $this->temporaryFiles;
+        }
+        $this->temporaryFiles = $this->getTmpFilePaths($useCache, $maxLifetimeInHours);
+        return $this->temporaryFiles;
     }
 
     /**

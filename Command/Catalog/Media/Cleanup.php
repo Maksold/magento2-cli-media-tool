@@ -78,6 +78,20 @@ class Cleanup extends CatalogAbstract
             );
 
             /*
+             * Remove temporary files
+             */
+            $maxLifetimeInHours = Temporary::DEFAULT_MAX_LIFETIME;
+            $temporaryFilePaths = $this->getTemporaryFilePaths(false, $maxLifetimeInHours);
+            $this->deleteFilePaths($temporaryFilePaths);
+            $output->writeln(
+                sprintf(
+                    'Removed %d temporary files older that %d hour(s).',
+                    count($unusedFilePaths),
+                    $maxLifetimeInHours
+                )
+            );
+
+            /*
              * Output the ending state of the media gallery
              */
             $filePaths = $this->getFilePaths(false);
