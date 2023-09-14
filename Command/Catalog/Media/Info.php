@@ -6,10 +6,9 @@
  */
 namespace MagentoCode\CliMediaTool\Command\Catalog\Media;
 
-use mysql_xdevapi\Exception;
+use MagentoCode\CliMediaTool\Command\CatalogAbstract;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use MagentoCode\CliMediaTool\Command\CatalogAbstract;
 
 class Info extends CatalogAbstract
 {

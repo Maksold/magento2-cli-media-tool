@@ -6,10 +6,9 @@
  */
 namespace MagentoCode\CliMediaTool\Command\Catalog\Media;
 
-use mysql_xdevapi\Exception;
+use MagentoCode\CliMediaTool\Command\CatalogAbstract;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use MagentoCode\CliMediaTool\Command\CatalogAbstract;
 
 class Cleanup extends CatalogAbstract
 {
@@ -38,15 +37,9 @@ class Cleanup extends CatalogAbstract
              */
             $filePaths = $this->getFilePaths(false);
             $mediaGalleryPaths = $this->getMediaGalleryPaths(false);
-            $output->writeln(
-                sprintf(
-                    '   Files: %d
-   Media Gallery Entries: %d
-===============================================',
-                    count($filePaths),
-                    count($mediaGalleryPaths)
-                )
-            );
+            $output->writeln(sprintf('   Files: %d', count($filePaths)));
+            $output->writeln(sprintf('   Media Gallery Entries: %d', count($mediaGalleryPaths)));
+            $output->writeln('===============================================');
 
             /*
              * Cleanup orphaned media gallery entries that no longer have products using them
@@ -92,15 +85,9 @@ class Cleanup extends CatalogAbstract
             $output->writeln('===============================================');
             $output->writeln('===                  Done                   ===');
             $output->writeln('===============================================');
-            $output->writeln(
-                sprintf(
-                    '   Files: %d
-   Media Gallery Entries: %d
-===============================================',
-                    count($filePaths),
-                    count($mediaGalleryPaths)
-                )
-            );
+            $output->writeln(sprintf('   Files: %d', count($filePaths)));
+            $output->writeln(sprintf('   Media Gallery Entries: %d', count($mediaGalleryPaths)));
+            $output->writeln('===============================================');
         } catch (\Exception $exception) {
             $output->writeln(['Exception: ', $exception->getMessage()]);
         }
