@@ -204,7 +204,7 @@ abstract class CatalogAbstract extends Command
                     unset($this->tmpFilePaths[$k]);
                 } elseif ($this->driverFile->isFile($filePath)
                     && $this->driverFile->isReadable($filePath)
-                    && (time() - $this->driverFile->stat($filePath)['ctime']) < $maxLifetime
+                    && (time() - $this->driverFile->stat($filePath)['mtime']) < $maxLifetime
                 ) {
                     // Skip newly created files
                     unset($this->tmpFilePaths[$k]);
