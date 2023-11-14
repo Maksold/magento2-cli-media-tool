@@ -386,6 +386,12 @@ abstract class CatalogAbstract extends Command
      */
     protected function deleteFilePaths(array $filePaths)
     {
-        array_map([$this->driverFile, 'deleteFile'], $filePaths);
+        foreach ($filePaths as $filePath) {
+            try {
+                $this->driverFile->deleteFile($filePath);
+            } catch (\Magento\Framework\Exception\FileSystemException $e) {
+                // Skip this exceptions
+            }
+        }
     }
 }
