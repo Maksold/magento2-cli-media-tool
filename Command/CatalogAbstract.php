@@ -168,15 +168,15 @@ abstract class CatalogAbstract extends Command
         if ($useCache && $this->filePaths) {
             return $this->filePaths;
         }
-        if ($this->driverFile->isExists($this->getMediaDirectoryPath())) {
-            $this->filePaths = $this->driverFile->readDirectoryRecursively($this->getMediaDirectoryPath());
-            $cacheFiles = $this->getCacheFilePaths();
-            $this->filePaths = array_diff($this->filePaths, $cacheFiles);
-            //remove anything that's a directory
-            foreach ($this->filePaths as $k => $filePath) {
-                if ($this->driverFile->isDirectory($filePath)) {
-                    unset($this->filePaths[$k]);
-                }
+        $mediaDirectoryPath = $this->getMediaDirectoryPath();
+        if (!$this->driverFile->isExists($mediaDirectoryPath)) {
+            return [];
+        }
+        $cacheFiles = $this->getCacheFilePaths();
+        $this->filePaths = [];
+        foreach ($this->driverFile->readDirectoryRecursively($mediaDirectoryPath) as $filePath) {
+            if (!in_array($filePath, $cacheFiles, true) && !$this->driverFile->isDirectory($filePath)) {
+                $this->filePaths[] = $filePath;
             }
         }
         return $this->filePaths;
@@ -226,13 +226,12 @@ abstract class CatalogAbstract extends Command
             return $this->cacheFilePaths;
         }
         if ($this->driverFile->isExists($this->getCacheDirectoryPath())) {
-            $this->cacheFilePaths = $this->driverFile->readDirectoryRecursively($this->getCacheDirectoryPath());
-            //remove anything that's a directory
-            foreach ($this->cacheFilePaths as $k => $cacheFilePath) {
-                if ($this->driverFile->isDirectory($cacheFilePath)) {
-                    unset($this->cacheFilePaths[$k]);
+            $this->cacheFilePaths = array_filter(
+                $this->driverFile->readDirectoryRecursively($this->getCacheDirectoryPath()),
+                function ($filePath) {
+                    return !$this->driverFile->isDirectory($filePath); // skip directories
                 }
-            }
+            );
         }
         return $this->cacheFilePaths;
     }
