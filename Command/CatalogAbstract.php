@@ -368,15 +368,14 @@ abstract class CatalogAbstract extends Command
         }, $mediaGalleryPaths);
 
         $connection = $this->resource->getConnection();
-        $select = $connection->select()
-            ->from($connection->getTableName(Gallery::GALLERY_TABLE))
-            ->where('value IN(?)', $mediaGalleryPaths);
+        $chunkSize = 500;
 
-        $delete = $connection->deleteFromSelect(
-            $select,
-            $connection->getTableName(Gallery::GALLERY_TABLE)
-        );
-        $connection->query($delete);
+        foreach (array_chunk($mediaGalleryPaths, $chunkSize) as $mediaGalleryPathsChunk) {
+            $connection->delete(
+                $connection->getTableName(Gallery::GALLERY_TABLE),
+                ['value IN (?)' => $mediaGalleryPathsChunk]
+            );
+        }
     }
 
     /**
