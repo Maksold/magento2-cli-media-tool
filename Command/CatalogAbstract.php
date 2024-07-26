@@ -158,6 +158,28 @@ abstract class CatalogAbstract extends Command
     }
 
     /**
+     * Gets the product placeholder directory path
+     * @return string
+     * @throws \Magento\Framework\Exception\FileSystemException
+     */
+    protected function getPlaceholderDirectoryPath(): string
+    {
+        return $this->directoryList->getPath(DirectoryList::MEDIA)
+            .DIRECTORY_SEPARATOR.'catalog'.DIRECTORY_SEPARATOR.'product'.DIRECTORY_SEPARATOR.'placeholder';
+    }
+
+    /**
+     * Gets the Mirasvit SEO-friendly product image directory path
+     * @return string
+     * @throws \Magento\Framework\Exception\FileSystemException
+     */
+    protected function getMirasvitSEODirectoryPath(): string
+    {
+        return $this->directoryList->getPath(DirectoryList::MEDIA)
+            .DIRECTORY_SEPARATOR.'catalog'.DIRECTORY_SEPARATOR.'product'.DIRECTORY_SEPARATOR.'image';
+    }
+
+    /**
      * Get the file paths for all media files exclusing cache files
      * @param $useCache boolean
      * @return array|string[]
@@ -172,11 +194,21 @@ abstract class CatalogAbstract extends Command
         if (!$this->driverFile->isExists($mediaDirectoryPath)) {
             return [];
         }
-        $cacheFiles = $this->getCacheFilePaths();
         $this->filePaths = [];
-        foreach ($this->driverFile->readDirectoryRecursively($mediaDirectoryPath) as $filePath) {
-            if (!in_array($filePath, $cacheFiles, true) && !$this->driverFile->isDirectory($filePath)) {
-                $this->filePaths[] = $filePath;
+        $excludedPaths = [
+            $this->getCacheDirectoryPath(),
+            $this->getMirasvitSEODirectoryPath(),
+            $this->getPlaceholderDirectoryPath()
+        ];
+        foreach ($this->driverFile->readDirectory($mediaDirectoryPath) as $dirsPath) {
+            if (!$this->driverFile->isDirectory($dirsPath) || in_array($dirsPath, $excludedPaths, true)) {
+                continue; // Skip files and excluded dirs
+            }
+
+            foreach ($this->driverFile->readDirectoryRecursively($dirsPath) as $filePath) {
+                if (!$this->driverFile->isDirectory($filePath)) {
+                    $this->filePaths[] = $filePath;
+                }
             }
         }
         return $this->filePaths;
