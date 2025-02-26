@@ -86,7 +86,7 @@ class Cleanup extends CatalogAbstract
             $output->writeln(
                 sprintf(
                     'Removed %d temporary files older that %d hour(s).',
-                    count($unusedFilePaths),
+                    count($temporaryFilePaths),
                     $maxLifetimeInHours
                 )
             );
