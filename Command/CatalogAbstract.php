@@ -234,12 +234,17 @@ abstract class CatalogAbstract extends Command
                 if ($this->driverFile->isDirectory($filePath)) {
                     // Skip directories
                     unset($this->tmpFilePaths[$k]);
-                } elseif ($this->driverFile->isFile($filePath)
-                    && $this->driverFile->isReadable($filePath)
-                    && (time() - $this->driverFile->stat($filePath)['mtime']) < $maxLifetime
-                ) {
-                    // Skip newly created files
-                    unset($this->tmpFilePaths[$k]);
+                } elseif ($this->driverFile->isFile($filePath) && $this->driverFile->isReadable($filePath)) {
+                    if ($this->getTmpMediaDirectoryPath() === $this->driverFile->getParentDirectory($filePath)) {
+                        // Skip top-level files
+                        unset($this->tmpFilePaths[$k]);
+                        continue;
+                    }
+
+                    if ((time() - $this->driverFile->stat($filePath)['mtime']) > $maxLifetime) {
+                        // Skip new files
+                        unset($this->tmpFilePaths[$k]);
+                    }
                 }
             }
         }
